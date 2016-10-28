@@ -1,11 +1,10 @@
 @base-color: SkyBlue;
 @menu-size: 600px;
-@outer-border-width: 2px;
-
-@menu-degrees: 180;
-@offset-degrees: (@menu-degrees - 180) / 2;
 @menu-items-count: 6;
 @center-btn-size: @menu-size / 6;
+@menu-degrees: 180;
+
+@direction: right;
 
 .square(@size) {
 	width: @size;
@@ -24,59 +23,125 @@
 
 .circle-menu {
 	position: relative;
+	overflow: hidden;
 	.wrapper {
-		width: @menu-size;
-		height: @menu-size / 2;
 		transform: scale(0.1);
 		transition: transform .3s;
-		transform-origin: bottom;
 		overflow: hidden;
 	}
+	.wrapper when(@direction = top) {
+		transform-origin: bottom;
+		width: @menu-size;
+		height: @menu-size / 2;
+	}
+	.wrapper when(@direction = bottom) {
+		transform-origin: top;
+		width: @menu-size;
+		height: @menu-size / 2;
+	}
+	.wrapper when(@direction = right) {
+		transform-origin: left;
+		width: @menu-size / 2;
+		height: @menu-size;
+	}
+	.wrapper when(@direction = left) {
+		transform-origin: right;
+		width: @menu-size / 2;
+		height: @menu-size;
+	}
+
 	&.active .wrapper {
 		transform: scale(1);
 	}
+
 	.center {
 		.square(@center-btn-size);
 		.round();
 		.restrict-select();
 
 		position: absolute;
-		top: (@menu-size - @center-btn-size) / 2;
-		left: (@menu-size - @center-btn-size) / 2;
 		background-color: white;
-		border-top: 1px solid @base-color;
 		z-index: 10;
-		line-height: @center-btn-size / 1.5;
-		text-align: center;
 		font-size: 30px;
+		text-align: center;
 		color: @base-color;
 		cursor: pointer;
+		border-@{direction}: 1px solid @base-color;
+	}
+	.center when(@direction = top) {
+		top: (@menu-size - @center-btn-size) / 2;
+		left: (@menu-size - @center-btn-size) / 2;
+		line-height: @menu-size / 20;
+	}
+	.center when(@direction = bottom) {
+		top: -50px;
+		left: (@menu-size - @center-btn-size) / 2;
+		line-height: @menu-size / 4.5;
+	}
+	.center when(@direction = right) {
+		top: (@menu-size - @center-btn-size) / 2;
+		left: -50px;
+	}
+	.center when(@direction = left) {
+		top: (@menu-size - @center-btn-size) / 2;
+		right: -50px;
 	}
 
+	ul when(@direction = bottom) {
+		top: -@menu-size / 2;
+	}
+	ul when(@direction = right) {
+		left: -@menu-size / 2;
+	}
+	ul when(@direction = left) {
+		left: @menu-size / 2;
+	}
 	ul {
+		// use mixins()
 		.square(@menu-size);
 		.round();
 
+		// add styles
 		position: relative;
 		list-style: none;
 		overflow: hidden;
 		padding: 0;
+		margin: 0;
 
+		// declare variables
 		@item-lip: 20px;
 		@item-size: @menu-size / 2 + @item-lip;
 		@sector-angle: round(@menu-degrees / @menu-items-count);
 		@item-skew-angle: 90 - @sector-angle;
+		@light-bg-color: lighten(@base-color, 15%);
+
+		// declare mixins
 		.transform-item(@n) when (@n > 0) {
-			&:nth-child(@{n}) {
-				@rotation: (@n - 1) * @sector-angle - @offset-degrees;
+			@rotation: (@n - 1) * @sector-angle;
+			&:nth-child(@{n}) when (@direction = top) {
 				transform:
 					rotate(~"@{rotation}deg")
 					skew(~"@{item-skew-angle}deg");
 			}
-			.transform-item(@n - 1);
+			&:nth-child(@{n}) when (@direction = bottom) {
+				@r: -90 - @rotation;
+				transform:
+					rotate(~"@{r}deg")
+					skewY(~"@{item-skew-angle}deg");
+			}
+			&:nth-child(@{n}) when (@direction = right) {
+				@r: 90 + @rotation;
+				transform:
+					rotate(~"@{r}deg")
+					skew(~"@{item-skew-angle}deg");
+			}
+			&:nth-child(@{n}) when (@direction = left) {
+				transform:
+					rotate(~"-@{rotation}deg")
+					skew(~"-@{item-skew-angle}deg");
+			}
+		.transform-item(@n - 1);
 		}
-
-		@light-bg-color: lighten(@base-color, 15%);
 		.item-background(@n) when (@n > 0) {
 			&:nth-child(@{n}) a {
 				background-color: @base-color;
@@ -89,6 +154,8 @@
 			}
 			.item-background(@n - 1);
 		}
+
+		// inner elements styles
 		li {
 			position: absolute;
 			top: @item-lip * -1;
@@ -101,11 +168,29 @@
 			.transform-item(@menu-items-count);
 			.item-background(@menu-items-count);
 
+			@to-center-angle: 90 - (@sector-angle / 2);
 			.transform-item-content(@n) when (@n > 0) {
-				@to-center-angle: 90 - (@sector-angle / 2);
-				transform:
-					skew(~"-@{item-skew-angle}deg")
-					rotate(~"-@{to-center-angle}deg");
+				& when (@direction = top) {
+					transform:
+						skew(~"-@{item-skew-angle}deg")
+						rotate(~"-@{to-center-angle}deg");
+				}
+				& when (@direction = bottom) {
+					@a: 90 + @to-center-angle;
+					transform:
+						skewY(~"-@{item-skew-angle}deg")
+						rotate(~"@{a}deg");
+				}
+				& when (@direction = right) {
+					transform:
+						skew(~"-@{item-skew-angle}deg")
+						rotate(~"-@{to-center-angle}deg");
+				}
+				& when (@direction = left) {
+					transform:
+						skewY(~"@{item-skew-angle}deg")
+						rotate(~"@{to-center-angle}deg");
+				}
 				.transform-item-content(@n - 1);
 			}
 
@@ -115,11 +200,22 @@
 				height: 100%;
 				text-align: center;
 				vertical-align: middle;
-				line-height: @item-size / 2;
 				.transform-item-content(@menu-items-count);
-
-				margin-top: @item-size / 2.8;
-				margin-left: @item-size / 4;
+				& when (@direction = top) {
+					line-height: @item-size / 2;
+					margin-top: @item-size / 2.8;
+					margin-left: @item-size / 4;
+				}
+				& when (@direction = bottom) {
+					line-height: @item-size;
+					margin-top: @item-size / 5;
+					margin-left: @item-size / 3;
+				}
+				& when (@direction = right) {
+					line-height: @item-size / 2;
+					margin-top: @item-size / 2.9;
+					margin-left: @item-size / 3;
+				}
 
 				&:hover {
 					background-color: lighten(@base-color, 25%);
