@@ -1,6 +1,7 @@
 .circle-menu {
   position: relative;
   overflow: hidden;
+  display: inline-block;
 }
 .circle-menu .wrapper {
   transform: scale(0.1);
@@ -8,16 +9,16 @@
   overflow: hidden;
 }
 .circle-menu .wrapper {
-  transform-origin: left;
-  width: 300px;
-  height: 600px;
+  transform-origin: top;
+  width: 500px;
+  height: 250px;
 }
 .circle-menu.active .wrapper {
   transform: scale(1);
 }
 .circle-menu .center {
-  width: 100px;
-  height: 100px;
+  width: 83.33333333px;
+  height: 83.33333333px;
   border-radius: 50%;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -26,21 +27,22 @@
   background-color: white;
   z-index: 10;
   font-size: 30px;
-  text-align: center;
   color: SkyBlue;
   cursor: pointer;
-  border-right: 1px solid SkyBlue;
+  border-bottom: 1px solid SkyBlue;
 }
 .circle-menu .center {
-  top: 250px;
-  left: -50px;
+  top: -41.66666667px;
+  left: 208.33333333px;
+  line-height: 111.11111111px;
+  text-align: center;
 }
 .circle-menu ul {
-  left: -300px;
+  top: -250px;
 }
 .circle-menu ul {
-  width: 600px;
-  height: 600px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
   position: relative;
   list-style: none;
@@ -53,28 +55,28 @@
   top: -20px;
   left: -20px;
   transform-origin: 100% 100%;
-  width: 320px;
-  height: 320px;
+  width: 270px;
+  height: 270px;
   overflow: hidden;
   transition: transform .3s;
 }
 .circle-menu ul li:nth-child(6) {
-  transform: rotate(240deg) skew(60deg);
+  transform: rotate(-240deg) skewY(60deg);
 }
 .circle-menu ul li:nth-child(5) {
-  transform: rotate(210deg) skew(60deg);
+  transform: rotate(-210deg) skewY(60deg);
 }
 .circle-menu ul li:nth-child(4) {
-  transform: rotate(180deg) skew(60deg);
+  transform: rotate(-180deg) skewY(60deg);
 }
 .circle-menu ul li:nth-child(3) {
-  transform: rotate(150deg) skew(60deg);
+  transform: rotate(-150deg) skewY(60deg);
 }
 .circle-menu ul li:nth-child(2) {
-  transform: rotate(120deg) skew(60deg);
+  transform: rotate(-120deg) skewY(60deg);
 }
 .circle-menu ul li:nth-child(1) {
-  transform: rotate(90deg) skew(60deg);
+  transform: rotate(-90deg) skewY(60deg);
 }
 .circle-menu ul li:nth-child(6) a {
   background-color: SkyBlue;
@@ -100,10 +102,10 @@
   height: 100%;
   text-align: center;
   vertical-align: middle;
-  transform: skew(-60deg) rotate(-75deg);
-  line-height: 160px;
-  margin-top: 110.34482759px;
-  margin-left: 106.66666667px;
+  transform: skewY(-60deg) rotate(165deg);
+  line-height: 270px;
+  margin-top: 54px;
+  margin-left: 90px;
 }
 .circle-menu ul li a:hover {
   background-color: #f4fbfd;

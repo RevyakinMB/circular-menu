@@ -1,10 +1,10 @@
 @base-color: SkyBlue;
-@menu-size: 600px;
+@menu-size: 500px;
 @menu-items-count: 6;
 @center-btn-size: @menu-size / 6;
 @menu-degrees: 180;
 
-@direction: right;
+@direction: bottom;
 
 .square(@size) {
 	width: @size;
@@ -24,6 +24,8 @@
 .circle-menu {
 	position: relative;
 	overflow: hidden;
+	display: inline-block;
+
 	.wrapper {
 		transform: scale(0.1);
 		transition: transform .3s;
@@ -63,7 +65,6 @@
 		background-color: white;
 		z-index: 10;
 		font-size: 30px;
-		text-align: center;
 		color: @base-color;
 		cursor: pointer;
 		border-@{direction}: 1px solid @base-color;
@@ -72,19 +73,31 @@
 		top: (@menu-size - @center-btn-size) / 2;
 		left: (@menu-size - @center-btn-size) / 2;
 		line-height: @menu-size / 20;
+		text-align: center;
 	}
 	.center when(@direction = bottom) {
-		top: -50px;
+		top: -@center-btn-size / 2;
 		left: (@menu-size - @center-btn-size) / 2;
 		line-height: @menu-size / 4.5;
+		text-align: center;
 	}
 	.center when(@direction = right) {
 		top: (@menu-size - @center-btn-size) / 2;
-		left: -50px;
+		left: -@center-btn-size / 2;
+		line-height: @menu-size / 6;
+		text-align: right;
+		span {
+			margin-right: @center-btn-size / 5;
+		}
 	}
 	.center when(@direction = left) {
 		top: (@menu-size - @center-btn-size) / 2;
-		right: -50px;
+		right: -@center-btn-size / 2;
+		line-height: @menu-size / 6;
+		text-align: left;
+		span {
+			margin-left: @center-btn-size / 5;
+		}
 	}
 
 	ul when(@direction = bottom) {
@@ -92,9 +105,6 @@
 	}
 	ul when(@direction = right) {
 		left: -@menu-size / 2;
-	}
-	ul when(@direction = left) {
-		left: @menu-size / 2;
 	}
 	ul {
 		// use mixins()
@@ -138,7 +148,7 @@
 			&:nth-child(@{n}) when (@direction = left) {
 				transform:
 					rotate(~"-@{rotation}deg")
-					skew(~"-@{item-skew-angle}deg");
+					skewY(~"@{item-skew-angle}deg");
 			}
 		.transform-item(@n - 1);
 		}
@@ -187,9 +197,10 @@
 						rotate(~"-@{to-center-angle}deg");
 				}
 				& when (@direction = left) {
+					@a: @to-center-angle - 90;
 					transform:
-						skewY(~"@{item-skew-angle}deg")
-						rotate(~"@{to-center-angle}deg");
+						skewY(~"-@{item-skew-angle}deg")
+						rotate(~"@{a}deg");
 				}
 				.transform-item-content(@n - 1);
 			}
@@ -214,6 +225,11 @@
 				& when (@direction = right) {
 					line-height: @item-size / 2;
 					margin-top: @item-size / 2.9;
+					margin-left: @item-size / 3;
+				}
+				& when (@direction = left) {
+					line-height: @item-size;
+					margin-top: @item-size / 6;
 					margin-left: @item-size / 3;
 				}
 
