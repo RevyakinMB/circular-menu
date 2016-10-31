@@ -1,0 +1,114 @@
+.circle-menu {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.circle-menu .wrapper {
+  transform: scale(0.1);
+  transition: transform .3s;
+  overflow: hidden;
+}
+.circle-menu .wrapper {
+  transform-origin: right;
+  width: 150px;
+  height: 300px;
+}
+.circle-menu.active .wrapper {
+  transform: scale(1);
+}
+.circle-menu .center {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: absolute;
+  background-color: white;
+  z-index: 10;
+  font-size: 30px;
+  color: SkyBlue;
+  cursor: pointer;
+  border-left: 1px solid SkyBlue;
+}
+.circle-menu .center {
+  top: 125px;
+  right: -25px;
+  line-height: 50px;
+  text-align: left;
+}
+.circle-menu .center span {
+  margin-left: 10px;
+}
+.circle-menu ul {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+.circle-menu ul li {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  transform-origin: 100% 100%;
+  width: 170px;
+  height: 170px;
+  overflow: hidden;
+  transition: transform .3s;
+}
+.circle-menu ul li:nth-child(6) {
+  transform: rotate(-150deg) skewY(60deg);
+}
+.circle-menu ul li:nth-child(5) {
+  transform: rotate(-120deg) skewY(60deg);
+}
+.circle-menu ul li:nth-child(4) {
+  transform: rotate(-90deg) skewY(60deg);
+}
+.circle-menu ul li:nth-child(3) {
+  transform: rotate(-60deg) skewY(60deg);
+}
+.circle-menu ul li:nth-child(2) {
+  transform: rotate(-30deg) skewY(60deg);
+}
+.circle-menu ul li:nth-child(1) {
+  transform: rotate(-0deg) skewY(60deg);
+}
+.circle-menu ul li:nth-child(6) a {
+  background-color: SkyBlue;
+}
+.circle-menu ul li:nth-child(5) a {
+  background-color: #c9e9f6;
+}
+.circle-menu ul li:nth-child(4) a {
+  background-color: SkyBlue;
+}
+.circle-menu ul li:nth-child(3) a {
+  background-color: #c9e9f6;
+}
+.circle-menu ul li:nth-child(2) a {
+  background-color: SkyBlue;
+}
+.circle-menu ul li:nth-child(1) a {
+  background-color: #c9e9f6;
+}
+.circle-menu ul li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  transform: skewY(-60deg) rotate(-15deg);
+  line-height: 170px;
+  margin-top: 28.33333333px;
+  margin-left: 56.66666667px;
+}
+.circle-menu ul li a:hover {
+  background-color: #f4fbfd;
+}
