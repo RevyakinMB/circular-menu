@@ -1,14 +1,14 @@
-@base-color: SkyBlue;
-@menu-size: 500px;
+@base-color: SkyBlue; // CadetBlue, SkyBlue
+@menu-size: 300px;
 @menu-items-count: 6;
 @center-btn-size: @menu-size / 6;
 @menu-degrees: 180;
 
-@direction: bottom;
+@direction: left;
 
 .square(@size) {
-	width: @size;
 	height: @size;
+	width: @size;
 }
 
 .round() {
@@ -16,40 +16,46 @@
 }
 
 .restrict-select() {
-	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	-webkit-user-select: none;
 }
 
 .circle-menu {
-	position: relative;
-	overflow: hidden;
 	display: inline-block;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
 
 	.wrapper {
-		transform: scale(0.1);
-		transition: transform .3s;
 		overflow: hidden;
+		transform: scale(0.1);
+		transition: transform 0.3s;
 	}
+
 	.wrapper when(@direction = top) {
+		height: @menu-size / 2;
 		transform-origin: bottom;
 		width: @menu-size;
-		height: @menu-size / 2;
 	}
+
 	.wrapper when(@direction = bottom) {
+		height: @menu-size / 2;
 		transform-origin: top;
 		width: @menu-size;
-		height: @menu-size / 2;
 	}
+
 	.wrapper when(@direction = right) {
+		height: @menu-size;
 		transform-origin: left;
 		width: @menu-size / 2;
-		height: @menu-size;
 	}
+
 	.wrapper when(@direction = left) {
+		height: @menu-size;
 		transform-origin: right;
 		width: @menu-size / 2;
-		height: @menu-size;
 	}
 
 	&.active .wrapper {
@@ -61,62 +67,72 @@
 		.round();
 		.restrict-select();
 
-		position: absolute;
 		background-color: white;
-		z-index: 10;
-		font-size: 30px;
+		border-@{direction}: 1px solid @base-color;
 		color: @base-color;
 		cursor: pointer;
-		border-@{direction}: 1px solid @base-color;
+		font-size: 30px;
+		position: absolute;
+		z-index: 10;
 	}
+
 	.center when(@direction = top) {
-		top: (@menu-size - @center-btn-size) / 2;
 		left: (@menu-size - @center-btn-size) / 2;
 		line-height: @menu-size / 20;
 		text-align: center;
+		top: (@menu-size - @center-btn-size) / 2;
 	}
+
 	.center when(@direction = bottom) {
-		top: -@center-btn-size / 2;
 		left: (@menu-size - @center-btn-size) / 2;
 		line-height: @menu-size / 4.5;
 		text-align: center;
+		top: -@center-btn-size / 2;
 	}
+
 	.center when(@direction = right) {
-		top: (@menu-size - @center-btn-size) / 2;
 		left: -@center-btn-size / 2;
 		line-height: @menu-size / 6;
-		text-align: right;
+
 		span {
 			margin-right: @center-btn-size / 5;
 		}
-	}
-	.center when(@direction = left) {
+
+		text-align: right;
 		top: (@menu-size - @center-btn-size) / 2;
-		right: -@center-btn-size / 2;
+	}
+
+	.center when(@direction = left) {
 		line-height: @menu-size / 6;
-		text-align: left;
+		right: -@center-btn-size / 2;
+
 		span {
 			margin-left: @center-btn-size / 5;
 		}
+
+		text-align: left;
+		top: (@menu-size - @center-btn-size) / 2;
 	}
 
 	ul when(@direction = bottom) {
 		top: -@menu-size / 2;
 	}
+
 	ul when(@direction = right) {
 		left: -@menu-size / 2;
 	}
+
 	ul {
 		// use mixins()
 		.square(@menu-size);
 		.round();
 
 		// add styles
-		position: relative;
 		list-style: none;
+		margin: 0px;
 		overflow: hidden;
-		padding: 0;
-		margin: 0;
+		padding: 0px;
+		position: relative;
 
 		// declare variables
 		@item-lip: 20px;
@@ -128,36 +144,43 @@
 		// declare mixins
 		.transform-item(@n) when (@n > 0) {
 			@rotation: (@n - 1) * @sector-angle;
+
 			&:nth-child(@{n}) when (@direction = top) {
 				transform:
 					rotate(~"@{rotation}deg")
 					skew(~"@{item-skew-angle}deg");
 			}
+
 			&:nth-child(@{n}) when (@direction = bottom) {
 				@r: -90 - @rotation;
 				transform:
 					rotate(~"@{r}deg")
 					skewY(~"@{item-skew-angle}deg");
 			}
+
 			&:nth-child(@{n}) when (@direction = right) {
 				@r: 90 + @rotation;
 				transform:
 					rotate(~"@{r}deg")
 					skew(~"@{item-skew-angle}deg");
 			}
+
 			&:nth-child(@{n}) when (@direction = left) {
 				transform:
 					rotate(~"-@{rotation}deg")
 					skewY(~"@{item-skew-angle}deg");
 			}
-		.transform-item(@n - 1);
+
+			.transform-item(@n - 1);
 		}
+
 		.item-background(@n) when (@n > 0) {
 			&:nth-child(@{n}) a {
 				background-color: @base-color;
 			}
 			.item-even-background(@n - 1);
 		}
+
 		.item-even-background(@n) when (@n > 0) {
 			&:nth-child(@{n}) a {
 				background-color: @light-bg-color;
@@ -167,70 +190,78 @@
 
 		// inner elements styles
 		li {
+			height: @item-size;
+			left: @item-lip * -1;
+			overflow: hidden;
 			position: absolute;
 			top: @item-lip * -1;
-			left: @item-lip * -1;
 			transform-origin: 100% 100%;
 			width: @item-size;
-			height: @item-size;
-			overflow: hidden;
-			transition: transform .3s;
 			.transform-item(@menu-items-count);
 			.item-background(@menu-items-count);
 
 			@to-center-angle: 90 - (@sector-angle / 2);
+
 			.transform-item-content(@n) when (@n > 0) {
 				& when (@direction = top) {
 					transform:
 						skew(~"-@{item-skew-angle}deg")
 						rotate(~"-@{to-center-angle}deg");
 				}
+
 				& when (@direction = bottom) {
 					@a: 90 + @to-center-angle;
 					transform:
 						skewY(~"-@{item-skew-angle}deg")
 						rotate(~"@{a}deg");
 				}
+
 				& when (@direction = right) {
 					transform:
 						skew(~"-@{item-skew-angle}deg")
 						rotate(~"-@{to-center-angle}deg");
 				}
+
 				& when (@direction = left) {
 					@a: @to-center-angle - 90;
 					transform:
 						skewY(~"-@{item-skew-angle}deg")
 						rotate(~"@{a}deg");
 				}
+
 				.transform-item-content(@n - 1);
 			}
 
 			a {
 				display: block;
-				width: 100%;
 				height: 100%;
 				text-align: center;
 				vertical-align: middle;
+				width: 100%;
 				.transform-item-content(@menu-items-count);
+
 				& when (@direction = top) {
 					line-height: @item-size / 2;
-					margin-top: @item-size / 2.8;
 					margin-left: @item-size / 4;
+					margin-top: @item-size / 2.8;
 				}
+
 				& when (@direction = bottom) {
 					line-height: @item-size;
-					margin-top: @item-size / 5;
 					margin-left: @item-size / 3;
+					margin-top: @item-size / 5;
 				}
+
 				& when (@direction = right) {
 					line-height: @item-size / 2;
-					margin-top: @item-size / 2.9;
 					margin-left: @item-size / 3;
+					margin-top: @item-size / 2.9;
 				}
+
 				& when (@direction = left) {
 					line-height: @item-size;
-					margin-top: @item-size / 6;
 					margin-left: @item-size / 3;
+					margin-top: @item-size / 6;
 				}
 
 				&:hover {

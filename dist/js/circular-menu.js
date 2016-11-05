@@ -1,53 +1,47 @@
-(function (root, factory) {
+(function init(root, factory) {
+	'use strict';
 
-	"use strict";
-
-	// CommonJS module
-	if (typeof module === "object" && module.exports) {
+	if (typeof module === 'object' && module.exports) {
+		// CommonJS module
 		module.exports = factory();
-	}
-	// AMD module
-	else if (typeof require === "function" && define.amd) {
+	} else if (typeof define === 'function' && define.amd) {
+		// AMD module
 		define([], factory);
-	}
-	// define module in root scope
-	else {
+	} else {
+		// define module in root scope
 		root.CircularMenu = factory();
 	}
-
-}(this, function() {
-	"use strict";
-
+}(this, function factory() {
 	var CircularMenu = function(element, options) {
 		var menuDiv, center, wrapper, ul, li, a, span, i;
 
 		this.options = CircularMenu.defaultOptions;
 		this.initOptions(options);
 
-		menuDiv = document.createElement("div");
+		menuDiv = document.createElement('div');
 		element.appendChild(menuDiv);
-		menuDiv.classList.add("circle-menu");
+		menuDiv.classList.add('circle-menu');
 
-		center = document.createElement("div");
-		center.classList.add("center");
-		span = document.createElement("span");
-		span.innerHTML = "+";
+		center = document.createElement('div');
+		center.classList.add('center');
+		span = document.createElement('span');
+		span.innerHTML = '+';
 		center.appendChild(span);
 
-		wrapper = document.createElement("div");
-		wrapper.classList.add("wrapper");
+		wrapper = document.createElement('div');
+		wrapper.classList.add('wrapper');
 
 		menuDiv.appendChild(center);
 		menuDiv.appendChild(wrapper);
 
-		ul = document.createElement("ul");
+		ul = document.createElement('ul');
 		for (i = 0; i < this.options.itemCount; ++i) {
-			li = document.createElement("li");
-			a = document.createElement("a");
-			a.href = "#";
-			// TODO: customize "a" element contents
-			span = document.createElement("span");
-			span.innerHTML = "li";
+			li = document.createElement('li');
+			a = document.createElement('a');
+			a.href = '#';
+			// TODO: customize 'a' element contents
+			span = document.createElement('span');
+			span.innerHTML = 'li';
 			a.appendChild(span);
 
 			li.appendChild(a);
@@ -55,12 +49,12 @@
 		}
 		wrapper.appendChild(ul);
 
-		document.querySelector(".circle-menu .center").addEventListener(
-			"click", function() {
+		document.querySelector('.circle-menu .center').addEventListener(
+			'click', function() {
 				var parent = this.parentElement,
-					is_active = parent.classList.contains("active");
-				this.parentElement.classList.toggle("active");
-				this.firstElementChild.innerHTML = is_active ? '+' : '\u2013';
+					isActive = parent.classList.contains('active');
+				this.parentElement.classList.toggle('active');
+				this.firstElementChild.innerHTML = isActive ? '+' : '\u2013';
 			});
 	};
 
@@ -71,8 +65,9 @@
 	CircularMenu.prototype = {
 		constructor: CircularMenu,
 		initOptions: function(options) {
-			for (var op in options) {
-				if (!options.hasOwnProperty(op)) continue;
+			var op;
+			for (op in options) {
+				if (!{}.hasOwnProperty.call(options, op)) continue;
 				this.options[op] = options[op];
 			}
 		}
