@@ -13,7 +13,12 @@ const gulp = require('gulp'),
 	plumber = require('gulp-plumber'),
 	watch = require('gulp-watch'),
 	debug = require('gulp-debug'),
-	browserSync = require('browser-sync').create();
+
+	browserSync = require('browser-sync').create(),
+
+	through2 = require('through2').obj,
+	combiner = require('stream-combiner2').obj,
+	fs = require('fs');
 
 const env = process.env.NODE_ENV || 'development',
 	production = env === 'production';
@@ -25,11 +30,46 @@ gulp.task('lint:less', function() {
 });
 
 gulp.task('lint:js', function(cb) {
-	// TODO: doesn't work for now
-	return gulp.src('src/js/*.js')
-		.pipe(debug())
-		.pipe(eslint())
-		.pipe(eslint.format());
+	const cacheFilePath = process.cwd() + '/tmp/lintCache.json';
+	let eslintResults = {};
+	try {
+		eslintResults = JSON.parse(fs.readFileSync(cacheFilePath));
+	} catch(e) {
+		//console.log("error", e);
+	}
+
+	return gulp.src('src/js/*.js', {read: false})
+		.pipe(debug({title: "src"}))
+		.pipe(_if(
+			function(file) {
+				var cached = eslintResults[file.path];
+				return cached && cached.mtime === file.stat.mtime.toJSON();
+			},
+			through2(function(file, enc, callback) {
+				file.eslint = eslintResults[file.path].eslint;
+				callback(undefined, file);
+			}),
+			combiner(
+				// TODO: try it async
+				through2(function(file, enc, callback) {
+					file.contents = fs.readFileSync(file.path);
+					callback(undefined, file);
+				}),
+				eslint(),
+				debug({title: "eslint"}),
+				through2(function(file, enc, callback) {
+					eslintResults[file.path] = {
+						eslint: file.eslint,
+						mtime: file.stat.mtime
+					}
+					callback(undefined, file);
+				})
+			)
+		))
+		.pipe(eslint.format())
+		.on('end', function() {
+			fs.writeFileSync(cacheFilePath, JSON.stringify(eslintResults));
+		});
 });
 
 gulp.task('lint', gulp.parallel('lint:js', 'lint:less'));
