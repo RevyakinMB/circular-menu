@@ -1,0 +1,36 @@
+{
+  "name": "circular-menu",
+  "version": "1.0.0",
+  "description": "based on: http://tympanus.net/codrops/2013/08/09/building-a-circular-navigation-with-css-transforms/",
+  "scripts": {
+    "start": "gulp",
+    "build": "NODE_ENV=production gulp build",
+	"eslint": "./node_modules/.bin/eslint"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.17.5",
+    "del": "^2.2.2",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^2.1.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.5.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-debug": "^2.1.2",
+    "gulp-eslint": "^3.0.1",
+    "gulp-if": "^2.0.1",
+    "gulp-less": "^3.2.0",
+    "gulp-lesshint": "^2.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-watch": "^4.3.10"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/RevyakinMB/circular-menu.git"
+  }
+}

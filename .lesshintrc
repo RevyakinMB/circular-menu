@@ -1,0 +1,8 @@
+{
+	"spaceAfterPropertyColon": {
+		"enabled": false
+	},
+	"stringQuotes": {
+		"enabled": false
+	}
+}
