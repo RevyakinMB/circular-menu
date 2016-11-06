@@ -20,7 +20,8 @@ gulpTask('lint:less', './tasks/lint-less.js', {
 
 gulpTask('lint:js', './tasks/lint-js.js', {
 	src: 'src/js/*.js',
-	cacheFilePath: process.cwd() + '/tmp/lintCache.json'
+	cacheFilePath: process.cwd() + '/tmp/lintCache.json',
+	eslintrcPath: process.cwd() + '/.eslintrc.js'
 });
 
 gulp.task('lint', gulp.parallel('lint:js', 'lint:less'));

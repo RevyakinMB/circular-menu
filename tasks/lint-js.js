@@ -15,11 +15,20 @@ module.exports = function(options) {
 			//console.log("error", e);
 		}
 
+		let rcMtime = undefined;
+		gulp.src(options.eslintrcPath, {read: false})
+			.pipe(through2(function(file, enc, cb) {
+				rcMtime = file.stat.mtime;
+				cb();
+			}));
+
 		return gulp.src('src/js/*.js', {read: false})
 			.pipe(_if(
 				function(file) {
 					let cached = eslintResults[file.path];
-					return cached && cached.mtime === file.stat.mtime.toJSON();
+					return cached &&
+						cached.mtime === file.stat.mtime.toJSON() &&
+						cached.mtime > rcMtime;
 				},
 				through2(function(file, enc, callback) {
 					file.eslint = eslintResults[file.path].eslint;

@@ -1,4 +1,8 @@
 module.exports = {
+	"env" : {
+		"browser": true,
+		"amd": true
+	},
     "extends": "airbnb",
     "installedESLint": true,
     "plugins": [
